@@ -1,0 +1,15 @@
+# build/cache
+node_modules/
+.next/
+dist/
+*.log
+
+# local env / secrets
+.env
+.env.local
+apps/**/.env
+apps/**/.env.local
+
+# misc
+.DS_Store
+coverage/
