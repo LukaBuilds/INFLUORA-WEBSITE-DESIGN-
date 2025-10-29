@@ -225,24 +225,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle option card selection
     optionCards.forEach(card => {
         card.addEventListener('click', function() {
-            const group = this.closest('.selection-group');
-            const groupCards = group.querySelectorAll('.option-card');
+            const block = this.closest('.selection-block');
+            const blockCards = block.querySelectorAll('.option-card');
 
             // Remove selected from siblings
-            groupCards.forEach(c => c.classList.remove('selected'));
+            blockCards.forEach(c => c.classList.remove('selected'));
 
             // Add selected to this card
             this.classList.add('selected');
 
             // Update state
             const value = this.dataset.value;
-            const groupType = group.querySelector('.selection-label').textContent.toLowerCase();
+            const blockLabel = block.querySelector('.block-label').textContent.toLowerCase();
 
-            if (groupType.includes('platform')) {
+            if (blockLabel.includes('platform')) {
                 demoState.platform = value;
-            } else if (groupType.includes('niche')) {
+            } else if (blockLabel.includes('niche')) {
                 demoState.niche = value;
-            } else if (groupType.includes('content')) {
+            } else if (blockLabel.includes('content') || blockLabel.includes('type')) {
                 demoState.contentType = value;
             }
 
@@ -282,9 +282,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Processing animation
     function startProcessing() {
-        const processItems = document.querySelectorAll('.process-item');
+        const stageItems = document.querySelectorAll('.stage-item');
 
-        processItems.forEach((item, index) => {
+        stageItems.forEach((item, index) => {
             setTimeout(() => {
                 item.classList.add('active');
             }, index * 600);
@@ -433,7 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
         generateBtn.disabled = true;
 
         // Reset processing items
-        document.querySelectorAll('.process-item').forEach(item => {
+        document.querySelectorAll('.stage-item').forEach(item => {
             item.classList.remove('active');
         });
 
