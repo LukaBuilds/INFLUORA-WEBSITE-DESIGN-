@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - Influora</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="demo-style.css">
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">INFLUORA</a>
+            <div class="nav-links">
+                <a href="index.html#features">Features</a>
+                <a href="demo.html">Demo</a>
+                <a href="pricing.html">Pricing</a>
+                <a href="#" class="cta-btn">Start Free Trial</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Demo Hero -->
+    <section class="demo-hero">
+        <div class="container">
+            <div class="demo-badge">🎯 Interactive Demo</div>
+            <h1 class="demo-title">See Influora's AI in Action</h1>
+            <p class="demo-subtitle">Get instant AI-powered insights for your content. No signup required.</p>
+        </div>
+    </section>
+
+    <!-- Demo Interactive Section -->
+    <section class="demo-interactive">
+        <div class="container">
+
+            <!-- Step 1: Input Selection -->
+            <div class="demo-step step-1 active">
+                <div class="step-content">
+                    <h2 class="step-title">Choose Your Platform & Niche</h2>
+                    <p class="step-description">Select your content details to get personalized AI insights</p>
+
+                    <div class="selection-grid">
+                        <!-- Platform Selection -->
+                        <div class="selection-group">
+                            <label class="selection-label">Platform</label>
+                            <div class="option-cards">
+                                <div class="option-card" data-value="tiktok">
+                                    <div class="option-icon">📱</div>
+                                    <div class="option-name">TikTok</div>
+                                </div>
+                                <div class="option-card" data-value="instagram">
+                                    <div class="option-icon">📸</div>
+                                    <div class="option-name">Instagram</div>
+                                </div>
+                                <div class="option-card" data-value="youtube">
+                                    <div class="option-icon">🎥</div>
+                                    <div class="option-name">YouTube</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Niche Selection -->
+                        <div class="selection-group">
+                            <label class="selection-label">Content Niche</label>
+                            <div class="option-cards">
+                                <div class="option-card" data-value="fitness">
+                                    <div class="option-icon">💪</div>
+                                    <div class="option-name">Fitness</div>
+                                </div>
+                                <div class="option-card" data-value="tech">
+                                    <div class="option-icon">💻</div>
+                                    <div class="option-name">Tech</div>
+                                </div>
+                                <div class="option-card" data-value="lifestyle">
+                                    <div class="option-icon">✨</div>
+                                    <div class="option-name">Lifestyle</div>
+                                </div>
+                                <div class="option-card" data-value="business">
+                                    <div class="option-icon">💼</div>
+                                    <div class="option-name">Business</div>
+                                </div>
+                                <div class="option-card" data-value="food">
+                                    <div class="option-icon">🍔</div>
+                                    <div class="option-name">Food</div>
+                                </div>
+                                <div class="option-card" data-value="travel">
+                                    <div class="option-icon">✈️</div>
+                                    <div class="option-name">Travel</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Content Type Selection -->
+                        <div class="selection-group">
+                            <label class="selection-label">Content Type</label>
+                            <div class="option-cards">
+                                <div class="option-card" data-value="tutorial">
+                                    <div class="option-icon">📚</div>
+                                    <div class="option-name">Tutorial</div>
+                                </div>
+                                <div class="option-card" data-value="entertainment">
+                                    <div class="option-icon">🎭</div>
+                                    <div class="option-name">Entertainment</div>
+                                </div>
+                                <div class="option-card" data-value="review">
+                                    <div class="option-icon">⭐</div>
+                                    <div class="option-name">Review</div>
+                                </div>
+                                <div class="option-card" data-value="vlog">
+                                    <div class="option-icon">📹</div>
+                                    <div class="option-name">Vlog</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="demo-cta" id="generateBtn" disabled>
+                        <span>Generate AI Insights</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: AI Processing -->
+            <div class="demo-step step-2">
+                <div class="step-content">
+                    <div class="ai-processing">
+                        <div class="processing-animation">
+                            <div class="brain-icon">🧠</div>
+                            <div class="particles-container">
+                                <div class="particle"></div>
+                                <div class="particle"></div>
+                                <div class="particle"></div>
+                                <div class="particle"></div>
+                                <div class="particle"></div>
+                                <div class="particle"></div>
+                            </div>
+                        </div>
+                        <h2 class="processing-title">AI Analyzing Your Content...</h2>
+                        <div class="processing-steps">
+                            <div class="process-item">
+                                <div class="process-icon">✓</div>
+                                <span>Scanning platform algorithms</span>
+                            </div>
+                            <div class="process-item">
+                                <div class="process-icon">✓</div>
+                                <span>Analyzing trending patterns</span>
+                            </div>
+                            <div class="process-item">
+                                <div class="process-icon">✓</div>
+                                <span>Calculating engagement predictions</span>
+                            </div>
+                            <div class="process-item">
+                                <div class="process-icon">✓</div>
+                                <span>Generating personalized insights</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Results Dashboard -->
+            <div class="demo-step step-3">
+                <div class="step-content">
+                    <div class="results-header">
+                        <h2 class="results-title">Your AI-Powered Insights</h2>
+                        <p class="results-subtitle">Here's what Influora discovered for your <span id="resultNiche"></span> content on <span id="resultPlatform"></span></p>
+                    </div>
+
+                    <div class="results-grid">
+                        <!-- Engagement Prediction -->
+                        <div class="result-card large-card">
+                            <div class="card-header">
+                                <h3 class="card-title">📊 Predicted Performance</h3>
+                            </div>
+                            <div class="engagement-score">
+                                <div class="score-circle">
+                                    <svg class="score-ring" viewBox="0 0 120 120">
+                                        <circle class="score-ring-bg" cx="60" cy="60" r="52" />
+                                        <circle class="score-ring-fill" cx="60" cy="60" r="52" id="scoreRing" />
+                                    </svg>
+                                    <div class="score-number" id="scoreNumber">0</div>
+                                    <div class="score-label">Score</div>
+                                </div>
+                                <div class="score-details">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Expected Engagement</span>
+                                        <span class="detail-value" id="engagementRate">0%</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Viral Potential</span>
+                                        <span class="detail-value" id="viralPotential">Medium</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Trend Alignment</span>
+                                        <span class="detail-value" id="trendAlignment">Strong</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Best Time to Post -->
+                        <div class="result-card">
+                            <div class="card-header">
+                                <h3 class="card-title">⏰ Optimal Posting Time</h3>
+                            </div>
+                            <div class="time-recommendation">
+                                <div class="time-display" id="bestTime">Tuesday, 6:00 PM</div>
+                                <p class="time-reason" id="timeReason">Your audience is most active during this window</p>
+                                <div class="time-boost">
+                                    <span class="boost-label">Expected Boost:</span>
+                                    <span class="boost-value" id="boostValue">+35%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Content Suggestions -->
+                        <div class="result-card">
+                            <div class="card-header">
+                                <h3 class="card-title">💡 AI Recommendations</h3>
+                            </div>
+                            <ul class="recommendations-list" id="recommendationsList">
+                                <!-- Populated by JS -->
+                            </ul>
+                        </div>
+
+                        <!-- Trending Topics -->
+                        <div class="result-card">
+                            <div class="card-header">
+                                <h3 class="card-title">🔥 Trending Now</h3>
+                            </div>
+                            <div class="trending-topics" id="trendingTopics">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+
+                        <!-- Algorithm Insights -->
+                        <div class="result-card wide-card">
+                            <div class="card-header">
+                                <h3 class="card-title">🎯 Algorithm Strategy</h3>
+                            </div>
+                            <div class="strategy-content" id="strategyContent">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="demo-actions">
+                        <button class="demo-cta primary" id="startTrialBtn">
+                            <span>Start Free Trial - Get Full Access</span>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </button>
+                        <button class="demo-cta secondary" id="tryAgainBtn">
+                            <span>Try Different Settings</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready for the full experience?</h2>
+                <p class="cta-subtitle">Get unlimited AI insights, advanced analytics, and real-time recommendations</p>
+                <button class="cta-button magnetic-btn">
+                    <span>Start Free Trial</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </button>
+                <p class="cta-note">14-day free trial • No credit card required</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">INFLUORA</div>
+                <div class="footer-links">
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                    <a href="#">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+    <script src="demo-script.js"></script>
+</body>
+</html>
