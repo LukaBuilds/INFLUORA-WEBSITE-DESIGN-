@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Influora - AI-Powered Creator Intelligence</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <div class="logo">INFLUORA</div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#demo">Demo</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#" class="cta-btn">Start Free Trial</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <canvas id="hero-canvas"></canvas>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    <span class="line">Stop Guessing.</span>
+                    <span class="line">Start <span class="gradient-text">Growing</span>.</span>
+                </h1>
+                <p class="hero-subtitle">AI-powered creator intelligence that tells you exactly what to post, when to post, and why it'll blow up.</p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number" data-target="38">0</div>
+                        <div class="stat-label">% Avg Growth</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" data-target="2.3">0</div>
+                        <div class="stat-label">x More Engagement</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" data-target="10000">0</div>
+                        <div class="stat-label">+ Creators</div>
+                    </div>
+                </div>
+                <button class="hero-cta magnetic-btn">
+                    <span>Get Your AI Content Strategy</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="hero-visual">
+                <div class="phone-mockup" id="phone-mockup">
+                    <div class="phone-frame">
+                        <div class="phone-screen">
+                            <div class="dashboard-preview">
+                                <div class="dashboard-header">
+                                    <div class="profile-section">
+                                        <div class="avatar"></div>
+                                        <div class="welcome">
+                                            <div class="name">Welcome back, Alex</div>
+                                            <div class="subtitle">Your content is crushing it 🔥</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="metrics-grid">
+                                    <div class="metric-card">
+                                        <div class="metric-value">87.5K</div>
+                                        <div class="metric-label">Total Views</div>
+                                        <div class="metric-change positive">↑ 28%</div>
+                                    </div>
+                                    <div class="metric-card">
+                                        <div class="metric-value">4.2%</div>
+                                        <div class="metric-label">Engagement</div>
+                                        <div class="metric-change positive">↑ 15%</div>
+                                    </div>
+                                </div>
+                                <div class="chart-container">
+                                    <canvas id="mini-chart"></canvas>
+                                </div>
+                                <div class="recommendation-preview">
+                                    <div class="rec-title">💡 AI Recommendation</div>
+                                    <div class="rec-content">"Post tutorial content Tuesday 6 PM for +35% engagement"</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating elements -->
+        <div class="floating-icons">
+            <div class="icon-bubble" style="--delay: 0s">📊</div>
+            <div class="icon-bubble" style="--delay: 1s">🚀</div>
+            <div class="icon-bubble" style="--delay: 2s">💡</div>
+            <div class="icon-bubble" style="--delay: 1.5s">🎯</div>
+            <div class="icon-bubble" style="--delay: 0.5s">⚡</div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem-section">
+        <div class="container">
+            <h2 class="section-title">Sound familiar?</h2>
+            <div class="problems-grid">
+                <div class="problem-card">
+                    <div class="problem-icon">😵</div>
+                    <h3>"Why did this flop?"</h3>
+                    <p>You post content but have no idea what's working or why</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">🤷</div>
+                    <h3>"What should I post?"</h3>
+                    <p>Brainstorming based on gut feeling with no data</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">📉</div>
+                    <h3>"Algorithm changed again?"</h3>
+                    <p>Sudden reach drops and you don't know why</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">⏰</div>
+                    <h3>"When should I post?"</h3>
+                    <p>Posting randomly, missing optimal engagement windows</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="solution-section">
+        <div class="container">
+            <div class="solution-content">
+                <h2 class="section-title">Meet Your AI Content Strategist</h2>
+                <p class="section-subtitle">Influora analyzes every post across TikTok, Instagram, and YouTube - then tells you exactly what to create next.</p>
+                <div class="features-list">
+                    <div class="feature-item">
+                        <span class="check">✓</span>
+                        <span>Understand why content performs</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="check">✓</span>
+                        <span>Get AI-powered content recommendations</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="check">✓</span>
+                        <span>Detect algorithm changes instantly</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="check">✓</span>
+                        <span>Find your optimal posting times</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <h2 class="section-title">Features that make creators unstoppable</h2>
+            <div class="features-grid">
+                <div class="feature-card tilt-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>AI Content Recommendations</h3>
+                    <p>Get 5 specific, data-backed content ideas with predicted engagement lift</p>
+                    <div class="feature-example">
+                        <div class="example-tag">Example</div>
+                        <div class="example-text">"Post 'Morning Routine Mistakes' tutorial Tuesday 6PM for +28% engagement"</div>
+                    </div>
+                </div>
+
+                <div class="feature-card tilt-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Performance Analysis</h3>
+                    <p>Understand exactly why some videos blow up and others don't</p>
+                    <div class="animated-chart">
+                        <div class="chart-bar" style="--height: 60%"></div>
+                        <div class="chart-bar" style="--height: 85%"></div>
+                        <div class="chart-bar" style="--height: 45%"></div>
+                        <div class="chart-bar" style="--height: 95%"></div>
+                    </div>
+                </div>
+
+                <div class="feature-card tilt-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Algorithm Detection</h3>
+                    <p>Get alerted when TikTok/Instagram changes favor different content types</p>
+                    <div class="alert-example">
+                        <div class="alert-badge">⚠️ Alert</div>
+                        <div class="alert-text">Videos 45-90s getting 31% boost</div>
+                    </div>
+                </div>
+
+                <div class="feature-card tilt-card">
+                    <div class="feature-icon">🔮</div>
+                    <h3>Trend Forecasting</h3>
+                    <p>Predict your performance for next 7 days based on historical patterns</p>
+                    <div class="forecast-graph">
+                        <div class="forecast-line"></div>
+                    </div>
+                </div>
+
+                <div class="feature-card tilt-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Monetization Intel</h3>
+                    <p>Know your earning potential and which brands to partner with</p>
+                    <div class="money-display">
+                        <div class="money-amount">$200-500</div>
+                        <div class="money-label">per sponsored post</div>
+                    </div>
+                </div>
+
+                <div class="feature-card tilt-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Unified Dashboard</h3>
+                    <p>All your content from TikTok, Instagram, YouTube in one place</p>
+                    <div class="platforms">
+                        <span class="platform-icon">📱</span>
+                        <span class="platform-icon">📷</span>
+                        <span class="platform-icon">▶️</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="social-proof">
+        <div class="container">
+            <h2 class="section-title">Trusted by 10,000+ creators</h2>
+            <div class="testimonials">
+                <div class="testimonial-card float">
+                    <div class="testimonial-header">
+                        <img src="https://i.pravatar.cc/150?img=1" alt="Creator" class="testimonial-avatar">
+                        <div class="testimonial-info">
+                            <div class="testimonial-name">Sarah Chen</div>
+                            <div class="testimonial-handle">@sarahcreates</div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"Influora helped me 3x my engagement in 30 days. The AI recommendations are scary accurate."</p>
+                    <div class="testimonial-stats">
+                        <span>38K → 112K followers</span>
+                    </div>
+                </div>
+
+                <div class="testimonial-card float" style="--delay: 0.5s">
+                    <div class="testimonial-header">
+                        <img src="https://i.pravatar.cc/150?img=12" alt="Creator" class="testimonial-avatar">
+                        <div class="testimonial-info">
+                            <div class="testimonial-name">Marcus Johnson</div>
+                            <div class="testimonial-handle">@marcusfitness</div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"Finally understand why my content performs. Game changer for content strategy."</p>
+                    <div class="testimonial-stats">
+                        <span>15K → 67K followers</span>
+                    </div>
+                </div>
+
+                <div class="testimonial-card float" style="--delay: 1s">
+                    <div class="testimonial-header">
+                        <img src="https://i.pravatar.cc/150?img=45" alt="Creator" class="testimonial-avatar">
+                        <div class="testimonial-info">
+                            <div class="testimonial-name">Emma Rodriguez</div>
+                            <div class="testimonial-handle">@emmacooks</div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"The algorithm change alerts saved me. Adjusted my strategy immediately and kept growing."</p>
+                    <div class="testimonial-stats">
+                        <span>92K → 240K followers</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to stop guessing?</h2>
+                <p class="cta-subtitle">Join 10,000+ creators using AI to grow faster</p>
+                <button class="cta-button magnetic-btn">
+                    <span>Start Your Free Trial</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </button>
+                <p class="cta-note">No credit card required • 14-day free trial</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">INFLUORA</div>
+                <div class="footer-links">
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                    <a href="#">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
