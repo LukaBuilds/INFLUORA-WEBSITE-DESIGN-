@@ -60,44 +60,62 @@ document.addEventListener('DOMContentLoaded', () => {
     // Animated number counter for price amounts
     const priceAmounts = document.querySelectorAll('.price-amount');
     priceAmounts.forEach(amount => {
-        const targetValue = parseInt(amount.textContent);
+        const originalText = amount.textContent;
+        const targetValue = parseInt(originalText);
 
-        gsap.from(amount, {
-            scrollTrigger: {
-                trigger: amount,
-                start: 'top 80%',
-                toggleActions: 'play none none reverse'
+        gsap.fromTo(amount,
+            {
+                textContent: 0
             },
-            textContent: 0,
-            duration: 1.5,
-            ease: 'power2.out',
-            snap: { textContent: 1 },
-            onUpdate: function() {
-                amount.textContent = Math.round(this.targets()[0].textContent);
+            {
+                scrollTrigger: {
+                    trigger: amount,
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                },
+                textContent: targetValue,
+                duration: 1.5,
+                ease: 'power2.out',
+                snap: { textContent: 1 },
+                onUpdate: function() {
+                    amount.textContent = Math.round(this.targets()[0].textContent);
+                },
+                onComplete: function() {
+                    amount.textContent = originalText;
+                }
             }
-        });
+        );
     });
 
     // Animated counter for AI generation credits
     const creditsAmounts = document.querySelectorAll('.credits-amount');
     creditsAmounts.forEach(credit => {
-        const targetValue = parseFloat(credit.textContent.replace(/,/g, ''));
+        const originalText = credit.textContent;
+        const targetValue = parseFloat(originalText.replace(/,/g, ''));
 
-        gsap.from(credit, {
-            scrollTrigger: {
-                trigger: credit,
-                start: 'top 80%',
-                toggleActions: 'play none none reverse'
+        gsap.fromTo(credit,
+            {
+                textContent: 0
             },
-            textContent: 0,
-            duration: 2,
-            ease: 'power2.out',
-            snap: { textContent: 10 },
-            onUpdate: function() {
-                const value = Math.round(this.targets()[0].textContent);
-                credit.textContent = value.toLocaleString();
+            {
+                scrollTrigger: {
+                    trigger: credit,
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                },
+                textContent: targetValue,
+                duration: 2,
+                ease: 'power2.out',
+                snap: { textContent: 10 },
+                onUpdate: function() {
+                    const value = Math.round(this.targets()[0].textContent);
+                    credit.textContent = value.toLocaleString();
+                },
+                onComplete: function() {
+                    credit.textContent = originalText;
+                }
             }
-        });
+        );
     });
 
     // CTA Button magnetic effect
