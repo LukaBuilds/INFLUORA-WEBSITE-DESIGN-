@@ -190,24 +190,47 @@ body {
     line-height: 1.1;
     margin-bottom: 24px;
     letter-spacing: -0.03em;
-    animation: textGlow 4s ease-in-out infinite;
-}
-
-@keyframes textGlow {
-    0%, 100% {
-        text-shadow: 0 0 20px rgba(99, 102, 241, 0.3),
-                     0 0 40px rgba(99, 102, 241, 0.2);
-    }
-    50% {
-        text-shadow: 0 0 30px rgba(99, 102, 241, 0.6),
-                     0 0 60px rgba(99, 102, 241, 0.4),
-                     0 0 80px rgba(139, 92, 246, 0.3);
-    }
 }
 
 .hero-title .line {
     display: block;
     overflow: hidden;
+}
+
+/* Typewriter effect */
+.hero-title .line:nth-child(1) {
+    animation: typewriter 1.5s steps(15) 0.5s forwards;
+    width: 0;
+    white-space: nowrap;
+    border-right: 3px solid var(--primary);
+}
+
+.hero-title .line:nth-child(2) {
+    animation: typewriter 2s steps(18) 2s forwards;
+    width: 0;
+    white-space: nowrap;
+    border-right: 3px solid var(--primary);
+}
+
+.hero-title .line:nth-child(1)::after,
+.hero-title .line:nth-child(2)::after {
+    animation: blink 0.75s step-end infinite;
+}
+
+@keyframes typewriter {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+        border-right-color: transparent;
+    }
+}
+
+@keyframes blink {
+    50% {
+        border-right-color: transparent;
+    }
 }
 
 .gradient-text {
