@@ -6,6 +6,7 @@
     <title>Influora - AI-Powered Creator Intelligence</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="homepage-auth-styles.css">
+    <link rel="stylesheet" href="solution-interactive.css">
 </head>
 <body>
     <!-- Custom Cursor -->
@@ -251,28 +252,179 @@
         </div>
     </section>
 
-    <!-- Solution Section -->
-    <section class="solution-section">
+    <!-- Solution Section - Enhanced Interactive -->
+    <section class="solution-section" id="solution-section">
+        <!-- Animated Background -->
+        <div class="solution-bg-animation">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+        </div>
+
         <div class="container">
             <div class="solution-content">
-                <h2 class="section-title">Meet Your AI Content Strategist</h2>
-                <p class="section-subtitle">Influora analyzes every post across TikTok, Instagram, and YouTube - then tells you exactly what to create next.</p>
-                <div class="features-list">
-                    <div class="feature-item">
-                        <span class="check">✓</span>
-                        <span>Understand why content performs</span>
+                <h2 class="section-title solution-title">Meet Your AI Content Strategist</h2>
+                <p class="section-subtitle solution-subtitle">Influora analyzes every post across TikTok, Instagram, and YouTube - then tells you exactly what to create next.</p>
+
+                <!-- Interactive Feature Cards -->
+                <div class="features-grid-interactive">
+                    <!-- Feature Card 1 -->
+                    <div class="feature-card-interactive" data-index="0">
+                        <div class="feature-card-inner">
+                            <div class="feature-icon-animated">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="url(#grad1)" stroke-width="2" stroke-linejoin="round"/>
+                                    <path d="M2 17L12 22L22 17M2 12L12 17L22 12" stroke="url(#grad1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <defs>
+                                        <linearGradient id="grad1" x1="2" y1="2" x2="22" y2="22">
+                                            <stop offset="0%" stop-color="#7C3AED"/>
+                                            <stop offset="100%" stop-color="#06B6D4"/>
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            </div>
+                            <div class="checkmark-circle">
+                                <svg width="24" height="24" viewBox="0 0 24 24" class="checkmark-svg">
+                                    <circle cx="12" cy="12" r="10" stroke="url(#grad-check1)" stroke-width="2" fill="none" class="checkmark-circle-path"/>
+                                    <path d="M7 12L10 15L17 8" stroke="#06B6D4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" class="checkmark-check"/>
+                                    <defs>
+                                        <linearGradient id="grad-check1">
+                                            <stop offset="0%" stop-color="#7C3AED"/>
+                                            <stop offset="100%" stop-color="#06B6D4"/>
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            </div>
+                            <h3 class="feature-card-title">Understand Why Content Performs</h3>
+                            <p class="feature-card-description">Deep analytics reveal exactly what makes your content succeed or fail</p>
+                            <div class="feature-card-hover-content">
+                                <ul class="feature-benefits">
+                                    <li>📊 Performance breakdown by platform</li>
+                                    <li>🎯 Audience engagement patterns</li>
+                                    <li>⚡ Real-time trend analysis</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="feature-card-glow"></div>
                     </div>
-                    <div class="feature-item">
-                        <span class="check">✓</span>
-                        <span>Get AI-powered content recommendations</span>
+
+                    <!-- Feature Card 2 -->
+                    <div class="feature-card-interactive" data-index="1">
+                        <div class="feature-card-inner">
+                            <div class="feature-icon-animated">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="url(#grad2)"/>
+                                    <circle cx="12" cy="12" r="3" stroke="#06B6D4" stroke-width="2"/>
+                                    <defs>
+                                        <linearGradient id="grad2" x1="2" y1="2" x2="22" y2="22">
+                                            <stop offset="0%" stop-color="#7C3AED"/>
+                                            <stop offset="100%" stop-color="#06B6D4"/>
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            </div>
+                            <div class="checkmark-circle">
+                                <svg width="24" height="24" viewBox="0 0 24 24" class="checkmark-svg">
+                                    <circle cx="12" cy="12" r="10" stroke="url(#grad-check2)" stroke-width="2" fill="none" class="checkmark-circle-path"/>
+                                    <path d="M7 12L10 15L17 8" stroke="#06B6D4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" class="checkmark-check"/>
+                                    <defs>
+                                        <linearGradient id="grad-check2">
+                                            <stop offset="0%" stop-color="#7C3AED"/>
+                                            <stop offset="100%" stop-color="#06B6D4"/>
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            </div>
+                            <h3 class="feature-card-title">Get AI-Powered Recommendations</h3>
+                            <p class="feature-card-description">Smart content ideas tailored to your audience and niche</p>
+                            <div class="feature-card-hover-content">
+                                <ul class="feature-benefits">
+                                    <li>🤖 5 personalized content ideas daily</li>
+                                    <li>📈 Predicted engagement scores</li>
+                                    <li>🎬 Optimal video length suggestions</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="feature-card-glow"></div>
                     </div>
-                    <div class="feature-item">
-                        <span class="check">✓</span>
-                        <span>Detect algorithm changes instantly</span>
+
+                    <!-- Feature Card 3 -->
+                    <div class="feature-card-interactive" data-index="2">
+                        <div class="feature-card-inner">
+                            <div class="feature-icon-animated">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                                    <path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z" fill="url(#grad3)"/>
+                                    <defs>
+                                        <linearGradient id="grad3" x1="3" y1="2" x2="13" y2="22">
+                                            <stop offset="0%" stop-color="#7C3AED"/>
+                                            <stop offset="100%" stop-color="#06B6D4"/>
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            </div>
+                            <div class="checkmark-circle">
+                                <svg width="24" height="24" viewBox="0 0 24 24" class="checkmark-svg">
+                                    <circle cx="12" cy="12" r="10" stroke="url(#grad-check3)" stroke-width="2" fill="none" class="checkmark-circle-path"/>
+                                    <path d="M7 12L10 15L17 8" stroke="#06B6D4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" class="checkmark-check"/>
+                                    <defs>
+                                        <linearGradient id="grad-check3">
+                                            <stop offset="0%" stop-color="#7C3AED"/>
+                                            <stop offset="100%" stop-color="#06B6D4"/>
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            </div>
+                            <h3 class="feature-card-title">Detect Algorithm Changes Instantly</h3>
+                            <p class="feature-card-description">Get alerted when platforms change their algorithm behavior</p>
+                            <div class="feature-card-hover-content">
+                                <ul class="feature-benefits">
+                                    <li>⚠️ Real-time algorithm shift alerts</li>
+                                    <li>📱 Platform-specific notifications</li>
+                                    <li>🔄 Adaptation recommendations</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="feature-card-glow"></div>
                     </div>
-                    <div class="feature-item">
-                        <span class="check">✓</span>
-                        <span>Find your optimal posting times</span>
+
+                    <!-- Feature Card 4 -->
+                    <div class="feature-card-interactive" data-index="3">
+                        <div class="feature-card-inner">
+                            <div class="feature-icon-animated">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                                    <circle cx="12" cy="12" r="10" stroke="url(#grad4)" stroke-width="2"/>
+                                    <path d="M12 6v6l4 2" stroke="#06B6D4" stroke-width="2" stroke-linecap="round"/>
+                                    <defs>
+                                        <linearGradient id="grad4" x1="2" y1="2" x2="22" y2="22">
+                                            <stop offset="0%" stop-color="#7C3AED"/>
+                                            <stop offset="100%" stop-color="#06B6D4"/>
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            </div>
+                            <div class="checkmark-circle">
+                                <svg width="24" height="24" viewBox="0 0 24 24" class="checkmark-svg">
+                                    <circle cx="12" cy="12" r="10" stroke="url(#grad-check4)" stroke-width="2" fill="none" class="checkmark-circle-path"/>
+                                    <path d="M7 12L10 15L17 8" stroke="#06B6D4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" class="checkmark-check"/>
+                                    <defs>
+                                        <linearGradient id="grad-check4">
+                                            <stop offset="0%" stop-color="#7C3AED"/>
+                                            <stop offset="100%" stop-color="#06B6D4"/>
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            </div>
+                            <h3 class="feature-card-title">Find Your Optimal Posting Times</h3>
+                            <p class="feature-card-description">Know exactly when your audience is most active and engaged</p>
+                            <div class="feature-card-hover-content">
+                                <ul class="feature-benefits">
+                                    <li>🕒 Best times for each platform</li>
+                                    <li>📊 Timezone-adjusted scheduling</li>
+                                    <li>🎯 Audience activity heatmaps</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="feature-card-glow"></div>
                     </div>
                 </div>
             </div>
@@ -440,6 +592,8 @@
     <script src="supabase-config.js"></script>
     <!-- Auth Detection Script (must load before script.js) -->
     <script src="auth-homepage.js"></script>
+    <!-- Interactive Solution Section Animations -->
+    <script src="solution-interactive.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
