@@ -169,20 +169,33 @@
 .interactive-demo-section {
     padding: 100px 20px;
     background: linear-gradient(180deg, rgba(10, 10, 20, 1) 0%, rgba(15, 15, 25, 1) 100%);
+    min-height: 100vh;
 }
 
 .demo-step {
     display: none;
     opacity: 0;
+    min-height: 600px;
 }
 
 .demo-step.active {
-    display: block;
+    display: block !important;
+    opacity: 1 !important;
     animation: stepFade 0.5s ease forwards;
 }
 
 @keyframes stepFade {
     to { opacity: 1; }
+}
+
+/* Debug step-3 visibility */
+.step-3 {
+    position: relative;
+}
+
+.step-3.active .results-container {
+    display: block !important;
+    visibility: visible !important;
 }
 
 .step-header {
@@ -322,10 +335,116 @@
     color: rgba(255, 255, 255, 0.5);
 }
 
+/* Account Connection Section */
+.account-connection-section {
+    margin-top: 50px;
+    padding: 30px;
+    background: rgba(124, 58, 237, 0.08);
+    border: 1px solid rgba(124, 58, 237, 0.2);
+    border-radius: 20px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.connection-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.connection-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: white;
+}
+
+.connection-subtitle {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.connection-input-container {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.account-input {
+    flex: 1;
+    padding: 14px 18px;
+    background: rgba(20, 20, 35, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: white;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.account-input:focus {
+    border-color: rgba(124, 58, 237, 0.5);
+    background: rgba(20, 20, 35, 0.8);
+}
+
+.account-input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.connect-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 24px;
+    background: linear-gradient(135deg, #7C3AED, #6366F1);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.connect-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.4);
+}
+
+.connection-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    justify-content: center;
+}
+
+.connection-note svg {
+    flex-shrink: 0;
+}
+
+.connected-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    padding: 12px 20px;
+    background: rgba(34, 197, 94, 0.15);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    border-radius: 12px;
+    color: #22C55E;
+    font-weight: 600;
+    font-size: 14px;
+    margin-top: 16px;
+}
+
 /* Demo CTA Button */
 .demo-cta-container {
     text-align: center;
-    margin-top: 60px;
+    margin-top: 40px;
 }
 
 .demo-cta-btn {
@@ -504,13 +623,13 @@
 
 .results-header {
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: 40px;
 }
 
 .results-title {
     font-size: clamp(32px, 5vw, 48px);
     font-weight: 900;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 }
 
 .results-subtitle {
@@ -525,16 +644,19 @@
 
 .results-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 24px;
-    margin-bottom: 48px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .result-card {
     background: rgba(30, 30, 45, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 24px;
-    padding: 32px;
+    border-radius: 20px;
+    padding: 24px;
     backdrop-filter: blur(20px);
     transition: all 0.3s ease;
 }
@@ -572,14 +694,15 @@
 /* Score Display */
 .score-display {
     display: flex;
-    gap: 40px;
+    gap: 30px;
     align-items: center;
 }
 
 .score-ring-container {
     position: relative;
-    width: 140px;
-    height: 140px;
+    width: 110px;
+    height: 110px;
+    flex-shrink: 0;
 }
 
 .score-svg {
@@ -742,12 +865,69 @@
     font-weight: 700;
 }
 
+/* Account Analysis Card */
+.account-analysis-card {
+    border: 2px solid rgba(239, 68, 68, 0.3) !important;
+    background: rgba(239, 68, 68, 0.08) !important;
+}
+
+.account-analysis-card .card-header {
+    color: #EF4444;
+}
+
+.issue-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.issue-item {
+    padding: 16px;
+    background: rgba(20, 20, 35, 0.5);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    border-left: 3px solid #EF4444;
+}
+
+.issue-item:last-child {
+    margin-bottom: 0;
+}
+
+.issue-title {
+    font-weight: 600;
+    color: #F87171;
+    margin-bottom: 6px;
+    font-size: 15px;
+}
+
+.issue-description {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.6;
+}
+
+.unlock-full-analysis {
+    margin-top: 16px;
+    padding: 14px;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(99, 102, 241, 0.2));
+    border: 1px solid rgba(124, 58, 237, 0.3);
+    border-radius: 10px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 13px;
+}
+
+.unlock-full-analysis strong {
+    color: #A78BFA;
+}
+
 /* Results Actions */
 .results-actions {
     display: flex;
     gap: 16px;
     justify-content: center;
     flex-wrap: wrap;
+    margin-top: 32px;
 }
 
 .action-btn {

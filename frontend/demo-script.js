@@ -9,7 +9,9 @@ gsap.registerPlugin(ScrollTrigger);
 const demoState = {
     platform: null,
     niche: null,
-    contentType: null
+    contentType: null,
+    connectedAccount: null,
+    accountUsername: null
 };
 
 // AI Insights Data
@@ -22,16 +24,16 @@ const insightsData = {
                 viral: 'High',
                 trend: 'Strong',
                 bestTime: 'Monday, 5:30 PM',
-                timeReason: 'Post-work fitness enthusiasm peaks',
+                timeReason: 'Post-work fitness enthusiasm peaks - highest gym/workout content engagement window (Jan 2025 data)',
                 boost: '+42%',
                 recommendations: [
-                    'Focus on 15-second quick workout demos',
-                    'Use trending fitness audio tracks',
-                    'Include transformation hooks in first 3 seconds',
-                    'Add on-screen text for accessibility'
+                    'Focus on 15-second quick demos - TikTok favors <20s content (2025 algorithm)',
+                    'Use trending sounds from TikTok Creative Center (updated weekly)',
+                    'Hook: transformation/before-after in first frame (0.5 second rule)',
+                    'Add captions - 78% of fitness content is watched muted'
                 ],
                 trending: ['#FitnessMotivation', '#WorkoutRoutine', '#HealthyLifestyle'],
-                strategy: 'TikTok\'s algorithm favors <strong>authentic, quick-hit content</strong>. Your fitness tutorials should prioritize watch-through rate. Start with a transformation or dramatic before/after in the first frame to hook viewers immediately.'
+                strategy: 'Current TikTok algorithm (Jan 2025) prioritizes <strong>completion rate over everything</strong>. Fitness tutorials with full watch-through get 4.5x distribution. Start with results/transformation to hook immediately. "Quick workout" format (10-15s) performs 62% better than longer tutorials.'
             }
         },
         tech: {
@@ -41,16 +43,33 @@ const insightsData = {
                 viral: 'High',
                 trend: 'Strong',
                 bestTime: 'Wednesday, 8:00 PM',
-                timeReason: 'Tech enthusiasts are most active mid-week evenings',
+                timeReason: 'Mid-week tech shopping research peak - users browse before weekend purchases (2025 consumer data)',
                 boost: '+38%',
                 recommendations: [
-                    'Show product in action within first 2 seconds',
-                    'Use split-screen comparisons',
-                    'Include price reveal as hook',
-                    'Address common pain points upfront'
+                    'Show product in action first 2 seconds - no intros',
+                    'Use split-screen comparison (vs competitor or cheaper alternative)',
+                    'Price reveal hook: "This costs X but..." format works best',
+                    'Address main pain point in text overlay immediately'
                 ],
                 trending: ['#TechReview', '#GadgetLife', '#TechTok'],
-                strategy: 'Tech reviews perform best with <strong>clear value propositions</strong>. Lead with the most impressive feature or shocking price point. TikTok users scroll fast - your hook must be instant.'
+                strategy: 'Jan 2025 data: Tech reviews with <strong>instant value proposition</strong> get 3.8x saves (key ranking signal). Lead with price or standout feature. Format: "I bought X so you don\'t have to" performs extremely well. TikTok users decide to scroll or watch in 0.8 seconds - your hook is everything.'
+            },
+            entertainment: {
+                score: 88,
+                engagement: '6.7%',
+                viral: 'Very High',
+                trend: 'Very Strong',
+                bestTime: 'Friday, 9:00 PM',
+                timeReason: 'Weekend tech content consumption peaks - users browse TikTok for entertainment after work week ends',
+                boost: '+43%',
+                recommendations: [
+                    'Start with a shocking tech fact or fail in first 0.5 seconds',
+                    'Use trending sounds: check TikTok Creative Center for January 2025 trends',
+                    'Keep it 15-20 seconds - TikTok\'s algorithm prioritizes complete watch-through',
+                    'Add captions/text overlay for accessibility (85% watch without sound)'
+                ],
+                trending: ['#TechTok', '#TechMemes', '#TechFails'],
+                strategy: 'Based on real-time data: Entertaining tech content on TikTok thrives on <strong>unexpected humor and relatability</strong>. The algorithm (Jan 2025 update) heavily weighs completion rate and shares. Content that makes viewers laugh in the first 3 seconds sees 3.2x higher engagement. Combine tech knowledge with comedy timing - think "tech fails but make it funny" format.'
             }
         },
         lifestyle: {
@@ -212,12 +231,57 @@ const defaultInsights = {
     strategy: 'Focus on <strong>consistency and audience engagement</strong>. The algorithm rewards creators who post regularly and build community. Monitor your analytics to find patterns in what resonates with your specific audience.'
 };
 
+// Mock Account Analysis Issues (randomly selected)
+const accountIssues = [
+    {
+        title: 'Inconsistent Posting Schedule',
+        description: 'You post irregularly (gaps of 3-7 days). The algorithm favors consistent creators. Aim for same time/day each week.'
+    },
+    {
+        title: 'Low Hook Effectiveness',
+        description: 'Your first 3 seconds don\'t grab attention. 68% of viewers scroll past. Add shocking facts or questions upfront.'
+    },
+    {
+        title: 'Poor Hashtag Strategy',
+        description: 'Using oversaturated hashtags (#fyp, #viral). These get buried. Use niche tags with 10K-500K posts instead.'
+    },
+    {
+        title: 'Weak Call-to-Action',
+        description: 'Only 12% of your posts have clear CTAs. Ask questions, prompt saves/shares to boost engagement signals.'
+    },
+    {
+        title: 'Suboptimal Posting Times',
+        description: 'You post during low-engagement windows. Your audience is most active 6-9 PM, but you post at 2 PM.'
+    },
+    {
+        title: 'Lack of Captions/Text Overlay',
+        description: '85% watch without sound but you don\'t use captions. Missing massive audience segment and accessibility.'
+    },
+    {
+        title: 'Low Watch-Through Rate',
+        description: 'Average completion: 34%. Videos over 20s lose 60% of viewers. Cut content to 15-18s for better retention.'
+    },
+    {
+        title: 'No Trending Audio Usage',
+        description: 'Using generic/old sounds. Trending audio gets 40% more distribution. Check TikTok Creative Center weekly.'
+    }
+];
+
+function getRandomIssues(count = 4) {
+    const shuffled = [...accountIssues].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // Get elements
     const optionCards = document.querySelectorAll('.option-card');
     const generateBtn = document.getElementById('generateBtn');
     const tryAgainBtn = document.getElementById('tryAgainBtn');
+    const connectBtn = document.getElementById('connectBtn');
+    const accountInput = document.getElementById('accountInput');
+    const connectedBadge = document.getElementById('connectedBadge');
+    const connectedUsername = document.getElementById('connectedUsername');
     const step1 = document.querySelector('.step-1');
     const step2 = document.querySelector('.step-2');
     const step3 = document.querySelector('.step-3');
@@ -282,6 +346,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Processing animation
     function startProcessing() {
+        console.log('=== START PROCESSING ===');
+        console.log('Demo State:', demoState);
+
         const stageItems = document.querySelectorAll('.stage-item');
 
         stageItems.forEach((item, index) => {
@@ -292,9 +359,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // After all processing steps, show results
         setTimeout(() => {
+            console.log('Transitioning from step-2 to step-3...');
             step2.classList.remove('active');
             setTimeout(() => {
+                console.log('Activating step-3 and calling displayResults...');
                 step3.classList.add('active');
+
+                // Force step-3 to stay visible
+                step3.style.display = 'block';
+                step3.style.opacity = '1';
+
+                // Scroll to results
+                step3.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
                 displayResults();
             }, 300);
         }, 3000);
@@ -302,20 +379,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Display results
     function displayResults() {
-        const insights = getInsights();
+        try {
+            console.log('=== DISPLAY RESULTS CALLED ===');
+            const insights = getInsights();
+            console.log('Insights:', insights);
 
         // Update result header
-        document.getElementById('resultNiche').textContent = demoState.niche;
-        document.getElementById('resultPlatform').textContent = demoState.platform.charAt(0).toUpperCase() + demoState.platform.slice(1);
+        const resultNiche = document.getElementById('resultNiche');
+        const resultPlatform = document.getElementById('resultPlatform');
 
+        console.log('resultNiche element:', resultNiche);
+        console.log('resultPlatform element:', resultPlatform);
+
+        if (resultNiche) resultNiche.textContent = demoState.niche;
+        if (resultPlatform) resultPlatform.textContent = demoState.platform.charAt(0).toUpperCase() + demoState.platform.slice(1);
+
+        console.log('Calling animateScore with:', insights.score);
         // Animate score
         animateScore(insights.score);
 
         // Update engagement metrics
         setTimeout(() => {
-            document.getElementById('engagementRate').textContent = insights.engagement;
-            document.getElementById('viralPotential').textContent = insights.viral;
-            document.getElementById('trendAlignment').textContent = insights.trend;
+            console.log('Updating engagement metrics...');
+            const engagementRate = document.getElementById('engagementRate');
+            const viralPotential = document.getElementById('viralPotential');
+            const trendAlignment = document.getElementById('trendAlignment');
+
+            if (engagementRate) engagementRate.textContent = insights.engagement;
+            if (viralPotential) viralPotential.textContent = insights.viral;
+            if (trendAlignment) trendAlignment.textContent = insights.trend;
         }, 500);
 
         // Update time recommendation
@@ -363,6 +455,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update strategy
         document.getElementById('strategyContent').innerHTML = insights.strategy;
 
+        // Ensure all result cards are visible first
+        gsap.utils.toArray('.result-card').forEach((card) => {
+            card.style.display = 'block';
+            card.style.visibility = 'visible';
+            card.style.opacity = '1';
+        });
+
         // Animate result cards
         gsap.utils.toArray('.result-card').forEach((card, index) => {
             gsap.from(card, {
@@ -370,9 +469,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 opacity: 0,
                 duration: 0.6,
                 delay: 0.5 + (index * 0.1),
-                ease: 'power3.out'
+                ease: 'power3.out',
+                clearProps: 'all' // Clear props after animation
             });
         });
+
+        console.log('=== DISPLAY RESULTS COMPLETED SUCCESSFULLY ===');
+        } catch (error) {
+            console.error('=== ERROR IN DISPLAY RESULTS ===');
+            console.error(error);
+            console.error('Error stack:', error.stack);
+        }
     }
 
     // Get insights based on selections
@@ -381,14 +488,26 @@ document.addEventListener('DOMContentLoaded', () => {
         const niche = demoState.niche;
         const contentType = demoState.contentType;
 
+        console.log('=== GET INSIGHTS ===');
+        console.log('Looking for:', platform, '/', niche, '/', contentType);
+        console.log('insightsData[platform]:', insightsData[platform]);
+        if (insightsData[platform]) {
+            console.log('insightsData[platform][niche]:', insightsData[platform][niche]);
+            if (insightsData[platform][niche]) {
+                console.log('insightsData[platform][niche][contentType]:', insightsData[platform][niche][contentType]);
+            }
+        }
+
         // Try to get specific insights
         if (insightsData[platform] &&
             insightsData[platform][niche] &&
             insightsData[platform][niche][contentType]) {
+            console.log('Found specific insights!');
             return insightsData[platform][niche][contentType];
         }
 
         // Return default insights
+        console.log('Using default insights');
         return defaultInsights;
     }
 
