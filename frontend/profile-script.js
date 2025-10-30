@@ -10,12 +10,39 @@ async function checkAuth() {
         return;
     }
 
+    // One-time cleanup: Remove avatar from user metadata if it exists (causes quota errors)
+    if (session.user.user_metadata?.avatar) {
+        try {
+            await supabaseClient.auth.updateUser({
+                data: {
+                    name: session.user.user_metadata.name,
+                    bio: session.user.user_metadata.bio,
+                    avatar: null // Remove avatar from metadata
+                }
+            });
+        } catch (e) {
+            console.log('Avatar cleanup skipped:', e);
+        }
+    }
+
     // Load user profile
     loadUserProfile(session.user);
 }
 
 // Load User Profile
 function loadUserProfile(user) {
+    // Read saved profile data from localStorage
+    const savedProfile = JSON.parse(localStorage.getItem('influora_user') || '{}');
+
+    // Load saved profile picture from localStorage
+    const savedProfilePic = localStorage.getItem(`influora_profile_pic_${user.email}`);
+
+    // Merge with Supabase user metadata (Supabase user_metadata takes priority)
+    const name = user.user_metadata?.name || savedProfile.name || user.email?.split('@')[0] || 'User';
+    const bio = user.user_metadata?.bio || savedProfile.bio || '';
+    // Avatar from localStorage (base64 image)
+    const avatarData = savedProfilePic || null;
+
     // Top nav
     const userName = document.getElementById('user-name');
     const userAvatar = document.getElementById('user-avatar');
@@ -33,10 +60,7 @@ function loadUserProfile(user) {
     const previewEmail = document.getElementById('preview-email');
     const previewBio = document.getElementById('preview-bio');
     const previewAvatarInitials = document.getElementById('preview-avatar-initials');
-
-    // Get name from user metadata or email
-    const name = user.user_metadata?.name || user.email?.split('@')[0] || 'User';
-    const bio = user.user_metadata?.bio || '';
+    const previewAvatarImg = document.getElementById('preview-avatar-img');
 
     // Generate initials
     const initials = name
@@ -45,19 +69,45 @@ function loadUserProfile(user) {
 
     // Update all elements
     if (userName) userName.textContent = name;
-    if (userAvatar) userAvatar.textContent = initials;
     if (dropdownName) dropdownName.textContent = name;
     if (dropdownEmail) dropdownEmail.textContent = user.email;
-    if (dropdownAvatar) dropdownAvatar.textContent = initials;
 
+    // Update form inputs
     if (profileName) profileName.value = name;
     if (profileEmail) profileEmail.value = user.email;
     if (profileBio) profileBio.value = bio;
 
+    // Update preview
     if (previewName) previewName.textContent = name;
     if (previewEmail) previewEmail.textContent = user.email;
     if (previewBio) previewBio.textContent = bio || 'No bio yet - tell us about yourself!';
-    if (previewAvatarInitials) previewAvatarInitials.textContent = initials;
+
+    // Load saved avatar if exists
+    if (avatarData) {
+        uploadedAvatarData = avatarData;
+        updateAvatarPreview(avatarData);
+        const removeBtn = document.getElementById('remove-avatar-btn');
+        if (removeBtn) removeBtn.style.display = 'block';
+
+        // Update top nav avatars with image
+        if (userAvatar) {
+            userAvatar.style.backgroundImage = `url(${avatarData})`;
+            userAvatar.style.backgroundSize = 'cover';
+            userAvatar.style.backgroundPosition = 'center';
+            userAvatar.textContent = '';
+        }
+        if (dropdownAvatar) {
+            dropdownAvatar.style.backgroundImage = `url(${avatarData})`;
+            dropdownAvatar.style.backgroundSize = 'cover';
+            dropdownAvatar.style.backgroundPosition = 'center';
+            dropdownAvatar.textContent = '';
+        }
+    } else {
+        // Show initials
+        if (userAvatar) userAvatar.textContent = initials;
+        if (dropdownAvatar) dropdownAvatar.textContent = initials;
+        if (previewAvatarInitials) previewAvatarInitials.textContent = initials;
+    }
 
     // Update bio character counter
     updateBioCounter();
@@ -186,8 +236,50 @@ if (uploadArea) {
     });
 }
 
+// Resize image to fit within maxSize while maintaining aspect ratio
+function resizeImage(file, maxSize = 400) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
+
+                // Calculate new dimensions
+                if (width > height) {
+                    if (width > maxSize) {
+                        height = (height / width) * maxSize;
+                        width = maxSize;
+                    }
+                } else {
+                    if (height > maxSize) {
+                        width = (width / height) * maxSize;
+                        height = maxSize;
+                    }
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                // Convert to base64 with compression
+                const resizedBase64 = canvas.toDataURL('image/jpeg', 0.8);
+                resolve(resizedBase64);
+            };
+            img.onerror = reject;
+            img.src = e.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+}
+
 // Handle file selection
-function handleFileSelect(file) {
+async function handleFileSelect(file) {
     if (!file) return;
 
     // Validate file type
@@ -202,23 +294,28 @@ function handleFileSelect(file) {
         return;
     }
 
-    // Read and preview the image
-    const reader = new FileReader();
-    reader.onload = (e) => {
-        uploadedAvatarData = e.target.result;
-        updateAvatarPreview(uploadedAvatarData);
-        if (removeAvatarBtn) removeAvatarBtn.style.display = 'block';
+    try {
+        // Resize image to reduce file size
+        const resizedImage = await resizeImage(file, 400);
+        uploadedAvatarData = resizedImage;
+        updateAvatarPreview(resizedImage);
+        const removeBtn = document.getElementById('remove-avatar-btn');
+        if (removeBtn) removeBtn.style.display = 'block';
         showNotification('✓ Profile picture uploaded! Click "Save Changes" to apply', 'success');
-    };
-    reader.readAsDataURL(file);
+    } catch (error) {
+        console.error('Error processing image:', error);
+        showNotification('Failed to process image', 'error');
+    }
 }
 
 // Update avatar preview
 function updateAvatarPreview(imageData) {
-    if (previewAvatarImg && previewAvatarInitials) {
-        previewAvatarImg.src = imageData;
-        previewAvatarImg.style.display = 'block';
-        previewAvatarInitials.style.display = 'none';
+    const img = document.getElementById('preview-avatar-img');
+    const initials = document.getElementById('preview-avatar-initials');
+    if (img && initials) {
+        img.src = imageData;
+        img.style.display = 'block';
+        initials.style.display = 'none';
     }
 }
 
@@ -227,12 +324,15 @@ if (removeAvatarBtn) {
     removeAvatarBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         uploadedAvatarData = null;
-        if (previewAvatarImg && previewAvatarInitials) {
-            previewAvatarImg.style.display = 'none';
-            previewAvatarInitials.style.display = 'flex';
+        const img = document.getElementById('preview-avatar-img');
+        const initials = document.getElementById('preview-avatar-initials');
+        if (img && initials) {
+            img.style.display = 'none';
+            initials.style.display = 'flex';
         }
         removeAvatarBtn.style.display = 'none';
-        if (avatarUpload) avatarUpload.value = '';
+        const upload = document.getElementById('avatar-upload');
+        if (upload) upload.value = '';
         showNotification('Profile picture removed', 'info');
     });
 }
@@ -284,14 +384,32 @@ if (profileForm) {
         saveBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Saving...</span>';
 
         try {
-            // In a real app, this would make an API call
-            // For now, we'll just update localStorage
-            const user = JSON.parse(localStorage.getItem('influora_user') || '{}');
-            user.name = name;
-            user.bio = bio;
+            // Get current user
+            const { data: { session } } = await supabaseClient.auth.getSession();
+
+            // Save profile picture to localStorage (persists across sessions)
             if (uploadedAvatarData) {
-                user.avatar = uploadedAvatarData;
+                localStorage.setItem(`influora_profile_pic_${session.user.email}`, uploadedAvatarData);
+
+                // Dispatch custom event to notify other pages (like dashboard) to update
+                window.dispatchEvent(new Event('profile-pic-updated'));
             }
+
+            // Save to Supabase user metadata (persists across sessions)
+            const { data, error } = await supabaseClient.auth.updateUser({
+                data: {
+                    name: name,
+                    bio: bio
+                }
+            });
+
+            if (error) throw error;
+
+            // Save to localStorage for immediate access
+            const user = {
+                name,
+                bio
+            };
             localStorage.setItem('influora_user', JSON.stringify(user));
 
             if (alertDiv) {
@@ -308,13 +426,45 @@ if (profileForm) {
             const userAvatar = document.getElementById('user-avatar');
             const dropdownName = document.getElementById('dropdown-name');
             const dropdownAvatar = document.getElementById('dropdown-avatar');
+            const previewName = document.getElementById('preview-name');
+            const previewAvatarImg = document.getElementById('preview-avatar-img');
+            const previewAvatarInitials = document.getElementById('preview-avatar-initials');
 
-            const initials = name ? name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : user.email[0].toUpperCase();
+            // Use existing session variable
+            const userEmail = session?.user?.email || '';
+            const initials = name ? name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : userEmail[0]?.toUpperCase() || 'U';
 
+            // Update names
             if (userName) userName.textContent = name || 'User';
-            if (userAvatar) userAvatar.textContent = initials;
             if (dropdownName) dropdownName.textContent = name || 'User';
-            if (dropdownAvatar) dropdownAvatar.textContent = initials;
+            if (previewName) previewName.textContent = name || 'User';
+
+            // Update avatars - show image if uploaded, otherwise show initials
+            if (uploadedAvatarData) {
+                // Update top nav avatars with image
+                if (userAvatar) {
+                    userAvatar.style.backgroundImage = `url(${uploadedAvatarData})`;
+                    userAvatar.style.backgroundSize = 'cover';
+                    userAvatar.style.backgroundPosition = 'center';
+                    userAvatar.textContent = '';
+                }
+                if (dropdownAvatar) {
+                    dropdownAvatar.style.backgroundImage = `url(${uploadedAvatarData})`;
+                    dropdownAvatar.style.backgroundSize = 'cover';
+                    dropdownAvatar.style.backgroundPosition = 'center';
+                    dropdownAvatar.textContent = '';
+                }
+                // Update preview card avatar
+                if (previewAvatarImg && previewAvatarInitials) {
+                    previewAvatarImg.src = uploadedAvatarData;
+                    previewAvatarImg.style.display = 'block';
+                    previewAvatarInitials.style.display = 'none';
+                }
+            } else {
+                // Show initials
+                if (userAvatar) userAvatar.textContent = initials;
+                if (dropdownAvatar) dropdownAvatar.textContent = initials;
+            }
 
             showNotification('✓ Profile saved successfully!', 'success');
 
@@ -422,11 +572,188 @@ setTimeout(initializeSecurityUI, 100);
 // Platform Connect Buttons
 const connectButtons = document.querySelectorAll('.connect-btn');
 connectButtons.forEach(btn => {
-    btn.addEventListener('click', (e) => {
+    btn.addEventListener('click', async (e) => {
         const platformCard = e.target.closest('.platform-card');
         const platformName = platformCard.querySelector('h4').textContent;
-        showNotification(`🔗 ${platformName} integration coming soon!`, 'info');
+
+        if (platformName === 'YouTube') {
+            await connectYouTube(btn);
+        } else {
+            showNotification(`🔗 ${platformName} integration coming soon!`, 'info');
+        }
     });
+});
+
+// Connect YouTube via OAuth
+async function connectYouTube(button) {
+    try {
+        // Get current user
+        const { data: { session } } = await supabaseClient.auth.getSession();
+
+        if (!session) {
+            showNotification('Please log in first', 'error');
+            window.location.href = '/login';
+            return;
+        }
+
+        const userId = session.user.id;
+
+        // Show loading state
+        button.disabled = true;
+        const originalText = button.textContent;
+        button.textContent = 'Connecting...';
+
+        // Request OAuth URL from backend
+        const response = await fetch(`/api/youtube/auth?userId=${userId}`);
+        const data = await response.json();
+
+        if (!data.success) {
+            throw new Error(data.error || 'Failed to initialize YouTube connection');
+        }
+
+        // Open OAuth flow in a popup window
+        const width = 600;
+        const height = 700;
+        const left = (window.screen.width / 2) - (width / 2);
+        const top = (window.screen.height / 2) - (height / 2);
+
+        const popup = window.open(
+            data.authUrl,
+            'YouTube OAuth',
+            `width=${width},height=${height},left=${left},top=${top}`
+        );
+
+        // Monitor popup for completion
+        const checkPopup = setInterval(() => {
+            if (popup.closed) {
+                clearInterval(checkPopup);
+                button.disabled = false;
+                button.textContent = originalText;
+
+                // Check if connection was successful
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.get('youtube_connected') === 'true') {
+                    const channelData = JSON.parse(decodeURIComponent(urlParams.get('data')));
+
+                    // Save to localStorage
+                    const connectedAccounts = JSON.parse(localStorage.getItem('connected_accounts') || '{}');
+                    connectedAccounts.youtube = channelData;
+                    localStorage.setItem('connected_accounts', JSON.stringify(connectedAccounts));
+
+                    // Update UI
+                    updatePlatformUI('youtube', channelData);
+                    showNotification('✅ YouTube connected successfully!', 'success');
+
+                    // Clean URL
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                } else if (urlParams.get('error')) {
+                    const error = urlParams.get('error');
+                    showNotification('❌ Failed to connect YouTube: ' + error, 'error');
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }
+            }
+        }, 500);
+
+    } catch (error) {
+        console.error('Error connecting YouTube:', error);
+        showNotification('❌ ' + error.message, 'error');
+        button.disabled = false;
+        button.textContent = 'Connect';
+    }
+}
+
+// Update platform UI after connection
+function updatePlatformUI(platform, data) {
+    // Find the platform card
+    const platformCards = document.querySelectorAll('.platform-card');
+    platformCards.forEach(card => {
+        const platformName = card.querySelector('h4').textContent.toLowerCase();
+        if (platformName === platform) {
+            // Update status
+            const statusBadge = card.querySelector('.platform-status');
+            if (statusBadge) {
+                statusBadge.textContent = 'Connected';
+                statusBadge.style.background = 'rgba(34, 197, 94, 0.1)';
+                statusBadge.style.color = '#22C55E';
+            }
+
+            // Update button
+            const button = card.querySelector('.connect-btn');
+            if (button) {
+                button.textContent = 'Disconnect';
+                button.style.background = 'rgba(239, 68, 68, 0.1)';
+                button.style.color = '#EF4444';
+                button.classList.add('connected');
+            }
+
+            // Show account info
+            const accountInfo = document.createElement('div');
+            accountInfo.style.cssText = 'margin-top: 12px; padding: 12px; background: rgba(124, 58, 237, 0.1); border-radius: 8px; font-size: 13px;';
+            accountInfo.innerHTML = `
+                <strong>${data.displayName}</strong><br>
+                <span style="color: #A1A1AA;">${data.followers.toLocaleString()} subscribers • ${data.posts} videos</span>
+            `;
+
+            // Remove existing info if any
+            const existingInfo = card.querySelector('.account-info');
+            if (existingInfo) existingInfo.remove();
+
+            accountInfo.classList.add('account-info');
+            card.appendChild(accountInfo);
+        }
+    });
+}
+
+// Check for OAuth callback on page load
+window.addEventListener('load', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if (urlParams.get('youtube_connected') === 'true') {
+        const channelDataParam = urlParams.get('data');
+        if (channelDataParam) {
+            try {
+                const channelData = JSON.parse(decodeURIComponent(channelDataParam));
+
+                // Save to localStorage
+                const connectedAccounts = JSON.parse(localStorage.getItem('connected_accounts') || '{}');
+                connectedAccounts.youtube = channelData;
+                localStorage.setItem('connected_accounts', JSON.stringify(connectedAccounts));
+
+                // Update UI
+                updatePlatformUI('youtube', channelData);
+                showNotification('✅ YouTube connected successfully!', 'success');
+
+                // Clean URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+            } catch (error) {
+                console.error('Error processing YouTube connection:', error);
+            }
+        }
+    } else if (urlParams.get('error')) {
+        const error = urlParams.get('error');
+        let errorMessage = 'Failed to connect YouTube';
+
+        switch(error) {
+            case 'no_code':
+                errorMessage = 'Authorization failed. Please try again.';
+                break;
+            case 'no_channel':
+                errorMessage = 'No YouTube channel found for this account.';
+                break;
+            case 'oauth_failed':
+                errorMessage = 'OAuth authorization failed. Please try again.';
+                break;
+        }
+
+        showNotification('❌ ' + errorMessage, 'error');
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    // Load connected accounts from localStorage
+    const connectedAccounts = JSON.parse(localStorage.getItem('connected_accounts') || '{}');
+    if (connectedAccounts.youtube) {
+        updatePlatformUI('youtube', connectedAccounts.youtube);
+    }
 });
 
 // Change Password Button

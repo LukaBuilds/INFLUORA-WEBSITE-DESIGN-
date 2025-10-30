@@ -13,6 +13,16 @@ async function checkAuth() {
 
 // Load User Profile
 function loadUserProfile(user) {
+    // Read saved profile data from localStorage
+    const savedProfile = JSON.parse(localStorage.getItem('influora_user') || '{}');
+
+    // Read profile picture from the CORRECT localStorage key
+    const savedProfilePic = localStorage.getItem(`influora_profile_pic_${user.email}`);
+
+    // Merge localStorage data with Supabase user data (localStorage takes priority)
+    const displayName = savedProfile.name || user.user_metadata?.name || user.email?.split('@')[0] || 'User';
+    const avatarData = savedProfilePic || null;
+
     // Top nav user info
     const userName = document.getElementById('user-name');
     const userAvatar = document.getElementById('user-avatar');
@@ -22,18 +32,55 @@ function loadUserProfile(user) {
     const dropdownEmail = document.getElementById('dropdown-email');
     const dropdownAvatar = document.getElementById('dropdown-avatar');
 
-    if (userName) userName.textContent = user.name || 'User';
-    if (dropdownName) dropdownName.textContent = user.name || 'User';
+    if (userName) userName.textContent = displayName;
+    if (dropdownName) dropdownName.textContent = displayName;
     if (dropdownEmail) dropdownEmail.textContent = user.email;
 
     // Generate initials for avatar
-    const initials = user.name
-        ? user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
+    const initials = displayName
+        ? displayName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
         : user.email[0].toUpperCase();
 
-    if (userAvatar) userAvatar.textContent = initials;
-    if (dropdownAvatar) dropdownAvatar.textContent = initials;
+    // If there's an avatar image, show it instead of initials
+    if (avatarData) {
+        if (userAvatar) {
+            userAvatar.style.backgroundImage = `url(${avatarData})`;
+            userAvatar.style.backgroundSize = 'cover';
+            userAvatar.style.backgroundPosition = 'center';
+            userAvatar.textContent = '';
+        }
+        if (dropdownAvatar) {
+            dropdownAvatar.style.backgroundImage = `url(${avatarData})`;
+            dropdownAvatar.style.backgroundSize = 'cover';
+            dropdownAvatar.style.backgroundPosition = 'center';
+            dropdownAvatar.textContent = '';
+        }
+    } else {
+        if (userAvatar) userAvatar.textContent = initials;
+        if (dropdownAvatar) dropdownAvatar.textContent = initials;
+    }
 }
+
+// Listen for profile picture updates (for real-time updates across pages)
+window.addEventListener('storage', (e) => {
+    if (e.key && e.key.startsWith('influora_profile_pic_')) {
+        // Profile picture changed in another tab/window
+        const { data: { session } } = supabaseClient.auth.getSession();
+        session.then(({ data: { session } }) => {
+            if (session) {
+                loadUserProfile(session.user);
+            }
+        });
+    }
+});
+
+// Listen for custom profile picture update event (same-window updates)
+window.addEventListener('profile-pic-updated', async () => {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (session) {
+        loadUserProfile(session.user);
+    }
+});
 
 // Initialize
 checkAuth();
@@ -212,33 +259,12 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Animate Numbers
-function animateValue(element, start, end, duration) {
-    if (!element) return;
+// Disabled - no accounts connected yet
+// Numbers will be animated once user connects social media accounts
 
-    const range = end - start;
-    const increment = range / (duration / 16);
-    let current = start;
-
-    const timer = setInterval(() => {
-        current += increment;
-        if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
-            current = end;
-            clearInterval(timer);
-        }
-        element.textContent = Math.floor(current).toLocaleString();
-    }, 16);
-}
-
-// Animate all metric values
-document.querySelectorAll('[data-target]').forEach(element => {
-    const target = parseInt(element.dataset.target);
-    animateValue(element, 0, target, 2000);
-});
-
-// Performance Chart
+// Performance Chart - Disabled until accounts connected
 const ctx = document.getElementById('performance-chart');
-if (ctx && typeof Chart !== 'undefined') {
+if (false && ctx && typeof Chart !== 'undefined') {
     const chart = new Chart(ctx, {
         type: 'line',
         data: {
