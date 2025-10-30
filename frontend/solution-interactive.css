@@ -82,8 +82,8 @@
 .solution-title,
 .solution-subtitle {
     text-align: center;
-    opacity: 0;
-    transform: translateY(30px);
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .solution-subtitle {
@@ -105,8 +105,8 @@
 /* Individual Feature Card */
 .feature-card-interactive {
     position: relative;
-    opacity: 0;
-    transform: translateY(50px);
+    opacity: 1;
+    transform: translateY(0);
     cursor: pointer;
 }
 
