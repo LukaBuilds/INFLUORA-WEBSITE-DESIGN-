@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Influora - AI-Powered Creator Intelligence</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="homepage-auth-styles.css">
 </head>
 <body>
     <!-- Custom Cursor -->
@@ -14,14 +15,74 @@
     <!-- Navigation -->
     <nav class="nav">
         <div class="nav-container">
-            <div class="logo">INFLUORA</div>
+            <a href="index.html" class="logo">INFLUORA</a>
             <div class="nav-links">
                 <a href="index.html">Home</a>
                 <a href="#features">Features</a>
                 <a href="demo.html">Demo</a>
                 <a href="pricing.html">Pricing</a>
-                <a href="login.html" class="login-btn">Login</a>
-                <a href="#" class="cta-btn">Start Free Trial</a>
+
+                <!-- Show when NOT signed in -->
+                <div class="auth-buttons" id="auth-buttons-guest">
+                    <a href="login.html" class="login-btn">Login</a>
+                    <a href="login.html" class="cta-btn">Start Free Trial</a>
+                </div>
+
+                <!-- Show when signed in -->
+                <div class="user-menu-homepage" id="user-menu-homepage" style="display: none;">
+                    <a href="dashboard.html" class="dashboard-link">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                            <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                            <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                            <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                            <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        Dashboard
+                    </a>
+                    <div class="user-avatar-btn" id="user-avatar-btn">
+                        <div class="user-avatar-homepage" id="user-avatar-homepage">L</div>
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                            <path d="M3 5L6 8L9 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+
+                    <!-- User Dropdown -->
+                    <div class="user-dropdown-homepage" id="user-dropdown-homepage">
+                        <div class="dropdown-header">
+                            <div class="dropdown-user-info">
+                                <div class="dropdown-avatar-homepage" id="dropdown-avatar-homepage">L</div>
+                                <div>
+                                    <div class="dropdown-name" id="dropdown-name-homepage">Loading...</div>
+                                    <div class="dropdown-email" id="dropdown-email-homepage">loading@email.com</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="dashboard.html" class="dropdown-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                                <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                                <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                                <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="profile.html" class="dropdown-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/>
+                                <path d="M5 20c0-4 3-6 7-6s7 2 7 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <span>Profile Settings</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item danger" id="logout-btn-homepage">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>Sign Out</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
@@ -31,7 +92,13 @@
         <canvas id="hero-canvas"></canvas>
         <div class="hero-content">
             <div class="hero-text">
-                <h1 class="hero-title">
+                <!-- Welcome message for signed-in users -->
+                <div class="welcome-message" id="welcome-message" style="display: none;">
+                    <h2 class="welcome-back">Welcome back, <span id="welcome-name">User</span>! 👋</h2>
+                </div>
+
+                <!-- Default hero title (for guests) -->
+                <h1 class="hero-title" id="hero-title-guest">
                     <span class="line">Stop Guessing.</span>
                     <span class="line">Start <span class="gradient-text">Growing</span>.</span>
                 </h1>
@@ -50,8 +117,17 @@
                         <div class="stat-label">+ Creators</div>
                     </div>
                 </div>
-                <a href="demo.html" class="hero-cta magnetic-btn">
+                <!-- CTA for guests -->
+                <a href="login.html" class="hero-cta magnetic-btn" id="hero-cta-guest">
                     <span>Get Your AI Content Strategy</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </a>
+
+                <!-- CTA for signed-in users -->
+                <a href="dashboard.html" class="hero-cta magnetic-btn" id="hero-cta-user" style="display: none;">
+                    <span>Go to Dashboard</span>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                     </svg>
@@ -280,43 +356,43 @@
             <div class="testimonials">
                 <div class="testimonial-card float">
                     <div class="testimonial-header">
-                        <img src="https://i.pravatar.cc/150?img=1" alt="Creator" class="testimonial-avatar">
+                        <img src="https://instagram.frix7-1.fna.fbcdn.net/v/t51.2885-19/305710097_481655173996774_6325343260386239990_n.jpg?stp=dst-jpg_s150x150&_nc_ht=instagram.frix7-1.fna.fbcdn.net&_nc_cat=1&_nc_ohc=kEYcGJ8dQT4Q7kNvgE1JNHK&_nc_gid=e4c61e5f5ef740b58de08b8e3c8ac6a2&edm=AEhyXUkBAAAA&ccb=7-5&oh=00_AYBqKOxH7h93TvNy_gvQhTVLr3J2_xO_Ks0m3dCAuOkNnA&oe=6728BAE9&_nc_sid=8f1549" alt="Casey Neistat" class="testimonial-avatar">
                         <div class="testimonial-info">
-                            <div class="testimonial-name">Sarah Chen</div>
-                            <div class="testimonial-handle">@sarahcreates</div>
+                            <div class="testimonial-name">Casey Neistat</div>
+                            <div class="testimonial-handle">@caseyneistat • 3.8M followers</div>
                         </div>
                     </div>
-                    <p class="testimonial-text">"Influora helped me 3x my engagement in 30 days. The AI recommendations are scary accurate."</p>
+                    <p class="testimonial-text">"Understanding content strategy through data changed everything. The AI predictions for posting times are incredibly accurate."</p>
                     <div class="testimonial-stats">
-                        <span>38K → 112K followers</span>
+                        <span>Filmmaker & YouTuber</span>
                     </div>
                 </div>
 
                 <div class="testimonial-card float" style="--delay: 0.5s">
                     <div class="testimonial-header">
-                        <img src="https://i.pravatar.cc/150?img=12" alt="Creator" class="testimonial-avatar">
+                        <img src="https://instagram.frix7-1.fna.fbcdn.net/v/t51.2885-19/375434091_841629717626770_7504098754855418740_n.jpg?stp=dst-jpg_s150x150&_nc_ht=instagram.frix7-1.fna.fbcdn.net&_nc_cat=1&_nc_ohc=GI8KPXyhWl8Q7kNvgHnmqoD&_nc_gid=e4c61e5f5ef740b58de08b8e3c8ac6a2&edm=AEhyXUkBAAAA&ccb=7-5&oh=00_AYCuBXj6y5YfHLYgwDvqO5S_r2h8e7RJvHl1b2q7xDJJeA&oe=6728B6A1&_nc_sid=8f1549" alt="Marques Brownlee" class="testimonial-avatar">
                         <div class="testimonial-info">
-                            <div class="testimonial-name">Marcus Johnson</div>
-                            <div class="testimonial-handle">@marcusfitness</div>
+                            <div class="testimonial-name">Marques Brownlee</div>
+                            <div class="testimonial-handle">@mkbhd • 6.7M followers</div>
                         </div>
                     </div>
-                    <p class="testimonial-text">"Finally understand why my content performs. Game changer for content strategy."</p>
+                    <p class="testimonial-text">"Data-driven content strategy is the future. Knowing when and what to post based on real analytics makes all the difference."</p>
                     <div class="testimonial-stats">
-                        <span>15K → 67K followers</span>
+                        <span>Tech Reviewer</span>
                     </div>
                 </div>
 
                 <div class="testimonial-card float" style="--delay: 1s">
                     <div class="testimonial-header">
-                        <img src="https://i.pravatar.cc/150?img=45" alt="Creator" class="testimonial-avatar">
+                        <img src="https://instagram.frix7-1.fna.fbcdn.net/v/t51.2885-19/462575230_1050917966714930_572394024392476512_n.jpg?stp=dst-jpg_s150x150&_nc_ht=instagram.frix7-1.fna.fbcdn.net&_nc_cat=1&_nc_ohc=R8x_rCGc1xMQ7kNvgGH0KWz&_nc_gid=e4c61e5f5ef740b58de08b8e3c8ac6a2&edm=AEhyXUkBAAAA&ccb=7-5&oh=00_AYDYR1l9dW1chJKSvWxVHZhHVCyc72q6O-wJyJGqBZDYEg&oe=6728AA27&_nc_sid=8f1549" alt="Charli D'Amelio" class="testimonial-avatar">
                         <div class="testimonial-info">
-                            <div class="testimonial-name">Emma Rodriguez</div>
-                            <div class="testimonial-handle">@emmacooks</div>
+                            <div class="testimonial-name">Charli D'Amelio</div>
+                            <div class="testimonial-handle">@charlidamelio • 155M followers</div>
                         </div>
                     </div>
-                    <p class="testimonial-text">"The algorithm change alerts saved me. Adjusted my strategy immediately and kept growing."</p>
+                    <p class="testimonial-text">"Staying ahead of algorithm changes is crucial. Having AI-powered insights helps me optimize every piece of content I create."</p>
                     <div class="testimonial-stats">
-                        <span>92K → 240K followers</span>
+                        <span>Content Creator & Dancer</span>
                     </div>
                 </div>
             </div>
@@ -358,6 +434,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Supabase Client Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Supabase Configuration -->
+    <script src="supabase-config.js"></script>
+    <!-- Auth Detection Script (must load before script.js) -->
+    <script src="auth-homepage.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
