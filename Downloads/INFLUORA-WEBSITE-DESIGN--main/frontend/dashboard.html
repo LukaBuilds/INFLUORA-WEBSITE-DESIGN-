@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Influora</title>
+    <link rel="stylesheet" href="dashboard-style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Top Navigation Bar -->
+        <nav class="top-navigation">
+            <div class="nav-left">
+                <a href="index.html" class="brand" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px;">
+                    <div class="brand-logo">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="url(#gradient1)"/>
+                            <path d="M2 17L12 22L22 17M2 12L12 17L22 12" stroke="url(#gradient1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <defs>
+                                <linearGradient id="gradient1" x1="2" y1="2" x2="22" y2="22">
+                                    <stop offset="0%" stop-color="#7C3AED"/>
+                                    <stop offset="100%" stop-color="#06B6D4"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <span class="brand-name">Influora</span>
+                </a>
+                <a href="index.html" class="home-link" style="display: flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; background: rgba(124, 58, 237, 0.1); color: #7C3AED; text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.2s ease; margin-left: 16px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <polyline points="9 22 9 12 15 12 15 22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Home
+                </a>
+                <div class="workspace-selector">
+                    <span id="workspace-name">My Workspace</span>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                        <path d="M3 5L6 8L9 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="nav-center">
+                <div class="search-bar">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                        <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <input type="text" placeholder="Search content, metrics, insights..." id="search-input">
+                    <kbd>⌘K</kbd>
+                </div>
+            </div>
+
+            <div class="nav-right">
+                <button class="nav-icon-btn" id="sync-btn" title="Sync Data">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M21 10C21 10 18.995 7.26822 17.3662 5.63824C15.7373 4.00827 13.4864 3 11 3C6.02944 3 2 7.02944 2 12C2 16.9706 6.02944 21 11 21C15.1031 21 18.5649 18.2543 19.6482 14.5M21 10V4M21 10H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+                <button class="nav-icon-btn" id="notifications-btn" title="Notifications">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <span class="notification-dot"></span>
+                </button>
+                <div class="user-menu" id="user-menu-btn">
+                    <div class="user-avatar" id="user-avatar">LK</div>
+                    <div class="user-details">
+                        <div class="user-name" id="user-name">Loading...</div>
+                        <div class="user-role">Creator</div>
+                    </div>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                        <path d="M3 5L6 8L9 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+
+                <!-- User Dropdown -->
+                <div class="user-dropdown" id="user-dropdown">
+                    <div class="dropdown-header">
+                        <div class="dropdown-user-info">
+                            <div class="dropdown-avatar" id="dropdown-avatar">LK</div>
+                            <div>
+                                <div class="dropdown-name" id="dropdown-name">Loading...</div>
+                                <div class="dropdown-email" id="dropdown-email">loading@email.com</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <a href="/profile" class="dropdown-item profile-settings-link-simple">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/>
+                            <path d="M5 20c0-4 3-6 7-6s7 2 7 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <span>Profile Settings</span>
+                    </a>
+                    <button class="dropdown-item" id="preferences-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 1v6m0 6v6M23 12h-6m-6 0H1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <span>Preferences</span>
+                    </button>
+                    <button class="dropdown-item" id="integrations-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" fill="currentColor"/>
+                        </svg>
+                        <span>Integrations</span>
+                    </button>
+                    <div class="dropdown-divider"></div>
+                    <button class="dropdown-item danger" id="logout-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Sign Out</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <div class="tabs-container">
+                <button class="tab-btn active" data-tab="overview">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <span>Overview</span>
+                </button>
+                <button class="tab-btn" data-tab="analytics">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <path d="M3 3v18h18M7 16l4-4 4 4 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Analytics</span>
+                </button>
+                <button class="tab-btn" data-tab="content">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
+                        <path d="M9 9h6M9 15h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <span>My Content</span>
+                </button>
+                <button class="tab-btn" data-tab="ai-studio">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                        <path d="M2 17L12 22L22 17M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>AI Studio</span>
+                    <span class="tab-badge">New</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Dashboard Content -->
+        <main class="main-dashboard">
+            <!-- Overview Tab -->
+            <div class="tab-content active" id="tab-overview">
+                <!-- Empty State - No Accounts Connected -->
+                <section class="hero-section">
+                    <div class="empty-state-container">
+                        <div class="empty-state-icon">
+                            <svg width="80" height="80" viewBox="0 0 24 24" fill="none">
+                                <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" fill="url(#gradient-empty)"/>
+                                <defs>
+                                    <linearGradient id="gradient-empty" x1="3" y1="3" x2="21" y2="21">
+                                        <stop offset="0%" stop-color="#7C3AED" stop-opacity="0.3"/>
+                                        <stop offset="100%" stop-color="#06B6D4" stop-opacity="0.3"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <h2 class="empty-state-title">Connect Your Social Media Accounts</h2>
+                        <p class="empty-state-description">Start by connecting your social media accounts to see your analytics, track performance, and get AI-powered insights.</p>
+                        <a href="/profile#platforms" class="empty-state-button">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <span>Connect Accounts</span>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Hidden until accounts connected -->
+                <div class="dashboard-grid" style="display: none;">
+                    <!-- Left Column -->
+                    <div class="grid-left">
+                        <!-- Performance Chart -->
+                        <div class="card chart-card">
+                            <div class="card-header">
+                                <div class="card-header-left">
+                                    <h3 class="card-title">Performance Overview</h3>
+                                    <p class="card-subtitle">Last 30 days activity</p>
+                                </div>
+                                <div class="card-header-right">
+                                    <div class="time-filter">
+                                        <button class="filter-btn">7d</button>
+                                        <button class="filter-btn active">30d</button>
+                                        <button class="filter-btn">90d</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="performance-chart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Content Timeline -->
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-header-left">
+                                    <h3 class="card-title">Recent Posts</h3>
+                                    <p class="card-subtitle">Your latest content performance</p>
+                                </div>
+                                <button class="btn-text">View All</button>
+                            </div>
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <div class="timeline-marker purple"></div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-header">
+                                            <div class="timeline-title">5 Productivity Hacks That Actually Work</div>
+                                            <span class="timeline-time">2 hours ago</span>
+                                        </div>
+                                        <div class="timeline-meta">
+                                            <span class="meta-tag tiktok">TikTok</span>
+                                            <span class="meta-stat">32.4K views</span>
+                                            <span class="meta-stat">2.8K likes</span>
+                                            <span class="meta-badge trending">🔥 Trending</span>
+                                        </div>
+                                        <div class="timeline-metrics">
+                                            <div class="metric-bar">
+                                                <div class="metric-bar-label">Engagement</div>
+                                                <div class="metric-bar-track">
+                                                    <div class="metric-bar-fill purple" style="width: 87%"></div>
+                                                </div>
+                                                <div class="metric-bar-value">8.7%</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item">
+                                    <div class="timeline-marker blue"></div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-header">
+                                            <div class="timeline-title">My Morning Routine as a Creator</div>
+                                            <span class="timeline-time">1 day ago</span>
+                                        </div>
+                                        <div class="timeline-meta">
+                                            <span class="meta-tag instagram">Instagram</span>
+                                            <span class="meta-stat">28.1K views</span>
+                                            <span class="meta-stat">1.9K likes</span>
+                                        </div>
+                                        <div class="timeline-metrics">
+                                            <div class="metric-bar">
+                                                <div class="metric-bar-label">Engagement</div>
+                                                <div class="metric-bar-track">
+                                                    <div class="metric-bar-fill blue" style="width: 68%"></div>
+                                                </div>
+                                                <div class="metric-bar-value">6.8%</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item">
+                                    <div class="timeline-marker cyan"></div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-header">
+                                            <div class="timeline-title">Why Most Creators Fail (Don't Make These Mistakes)</div>
+                                            <span class="timeline-time">3 days ago</span>
+                                        </div>
+                                        <div class="timeline-meta">
+                                            <span class="meta-tag youtube">YouTube</span>
+                                            <span class="meta-stat">45.7K views</span>
+                                            <span class="meta-stat">3.2K likes</span>
+                                        </div>
+                                        <div class="timeline-metrics">
+                                            <div class="metric-bar">
+                                                <div class="metric-bar-label">Engagement</div>
+                                                <div class="metric-bar-track">
+                                                    <div class="metric-bar-fill cyan" style="width: 92%"></div>
+                                                </div>
+                                                <div class="metric-bar-value">9.2%</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="grid-right">
+                        <!-- AI Insights -->
+                        <div class="card ai-card">
+                            <div class="card-header">
+                                <div class="card-header-left">
+                                    <h3 class="card-title">
+                                        <span class="ai-icon">✨</span>
+                                        AI Insights
+                                    </h3>
+                                    <p class="card-subtitle">Powered by your data</p>
+                                </div>
+                                <button class="btn-icon">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                        <path d="M21 10C21 10 18.995 7.26822 17.3662 5.63824C15.7373 4.00827 13.4864 3 11 3C6.02944 3 2 7.02944 2 12C2 16.9706 6.02944 21 11 21C15.1031 21 18.5649 18.2543 19.6482 14.5M21 10V4M21 10H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="ai-insights-list">
+                                <div class="insight-item high">
+                                    <div class="insight-priority">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                            <path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z" fill="currentColor"/>
+                                        </svg>
+                                    </div>
+                                    <div class="insight-content">
+                                        <div class="insight-title">Optimal Posting Time Detected</div>
+                                        <div class="insight-description">Your audience is most active on <strong>Tuesdays at 7:30 PM</strong>. Posts at this time get 42% more engagement.</div>
+                                        <button class="insight-action">Schedule Post</button>
+                                    </div>
+                                </div>
+
+                                <div class="insight-item medium">
+                                    <div class="insight-priority">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        </svg>
+                                    </div>
+                                    <div class="insight-content">
+                                        <div class="insight-title">Content Length Sweet Spot</div>
+                                        <div class="insight-description">Your <strong>45-60 second videos</strong> perform 28% better than others. Keep it in this range.</div>
+                                    </div>
+                                </div>
+
+                                <div class="insight-item low">
+                                    <div class="insight-priority">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                            <path d="M12 9v4m0 4h.01M12 3c4.97 0 9 4.03 9 9s-4.03 9-9 9-9-4.03-9-9 4.03-9 9-9z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        </svg>
+                                    </div>
+                                    <div class="insight-content">
+                                        <div class="insight-title">Hashtag Strategy Tip</div>
+                                        <div class="insight-description">Mix 3-4 trending hashtags with 2-3 niche ones for best reach.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Top Performing Content -->
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-header-left">
+                                    <h3 class="card-title">Top Performers</h3>
+                                    <p class="card-subtitle">This month</p>
+                                </div>
+                            </div>
+                            <div class="top-content-list">
+                                <div class="top-content-item">
+                                    <div class="rank-badge gold">1</div>
+                                    <div class="content-info">
+                                        <div class="content-title">Morning Routine That Changed My Life</div>
+                                        <div class="content-stats">
+                                            <span>156K views</span>
+                                            <span>•</span>
+                                            <span>12.4K likes</span>
+                                        </div>
+                                    </div>
+                                    <div class="engagement-score gold">9.8</div>
+                                </div>
+                                <div class="top-content-item">
+                                    <div class="rank-badge silver">2</div>
+                                    <div class="content-info">
+                                        <div class="content-title">Tools I Use Daily as a Creator</div>
+                                        <div class="content-stats">
+                                            <span>142K views</span>
+                                            <span>•</span>
+                                            <span>11.2K likes</span>
+                                        </div>
+                                    </div>
+                                    <div class="engagement-score silver">9.5</div>
+                                </div>
+                                <div class="top-content-item">
+                                    <div class="rank-badge bronze">3</div>
+                                    <div class="content-info">
+                                        <div class="content-title">Reality of Being a Full-Time Creator</div>
+                                        <div class="content-stats">
+                                            <span>128K views</span>
+                                            <span>•</span>
+                                            <span>9.8K likes</span>
+                                        </div>
+                                    </div>
+                                    <div class="engagement-score bronze">8.9</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="card action-card">
+                            <div class="card-header">
+                                <h3 class="card-title">Quick Actions</h3>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="action-button primary">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                    <span>Create New Post</span>
+                                </button>
+                                <button class="action-button secondary">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                                        <path d="M2 17L12 22L22 17M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <span>Generate Ideas</span>
+                                </button>
+                                <button class="action-button secondary">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
+                                        <path d="M16 2v4M8 2v4M3 10h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                    <span>Schedule Content</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other Tabs (Placeholder) -->
+            <div class="tab-content" id="tab-analytics">
+                <div class="empty-state">
+                    <div class="empty-icon">📊</div>
+                    <h3>Deep Analytics</h3>
+                    <p>Advanced analytics and insights coming soon</p>
+                </div>
+            </div>
+
+            <div class="tab-content" id="tab-content">
+                <div class="empty-state">
+                    <div class="empty-icon">📱</div>
+                    <h3>Content Library</h3>
+                    <p>Manage all your content in one place - coming soon</p>
+                </div>
+            </div>
+
+            <div class="tab-content" id="tab-ai-studio">
+                <div class="empty-state">
+                    <div class="empty-icon">✨</div>
+                    <h3>AI Studio</h3>
+                    <p>Generate content ideas, captions, and more - coming soon</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- Supabase Client Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Supabase Configuration -->
+    <script src="supabase-config.js"></script>
+    <script src="dashboard-script.js"></script>
+
+    <style>
+        .empty-state-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 40px;
+            min-height: 500px;
+        }
+
+        .empty-state-icon {
+            margin-bottom: 32px;
+            opacity: 0.4;
+        }
+
+        .empty-state-title {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #7C3AED, #06B6D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+        }
+
+        .empty-state-description {
+            font-size: 16px;
+            color: #A1A1AA;
+            max-width: 500px;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        .empty-state-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #7C3AED, #06B6D4);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+        }
+
+        .empty-state-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
+        }
+
+        .empty-state-button svg {
+            width: 18px;
+            height: 18px;
+        }
+    </style>
+</body>
+</html>
