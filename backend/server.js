@@ -13,30 +13,30 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files from parent directory
-app.use(express.static(path.join(__dirname, '..')));
+// Serve static files from frontend directory
+app.use(express.static(path.join(__dirname, '..', 'frontend')));
 
 // API Routes
 app.use('/api/auth', authRoutes);
 
 // Serve index.html for root
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'index.html'));
+    res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
 });
 
 // Serve login page
 app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'login.html'));
+    res.sendFile(path.join(__dirname, '..', 'frontend', 'login.html'));
 });
 
 // Serve dashboard (protected route - will be handled by frontend)
 app.get('/dashboard', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'dashboard.html'));
+    res.sendFile(path.join(__dirname, '..', 'frontend', 'dashboard.html'));
 });
 
 // Serve profile page
 app.get('/profile', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'profile.html'));
+    res.sendFile(path.join(__dirname, '..', 'frontend', 'profile.html'));
 });
 
 // Start server

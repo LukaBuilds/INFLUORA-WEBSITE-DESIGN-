@@ -1,14 +1,32 @@
 // Check Authentication
 async function checkAuth() {
-    const { data: { session } } = await supabaseClient.auth.getSession();
+    // PRIORITY 1: Check localStorage first (fallback auth)
+    const localAuth = localStorage.getItem('influora_auth');
+    const localUser = localStorage.getItem('influora_user');
 
-    if (!session) {
-        window.location.href = '/login';
-        return;
+    if (localAuth === 'true' && localUser) {
+        try {
+            const user = JSON.parse(localUser);
+            loadUserProfile(user);
+            return;
+        } catch (error) {
+            console.error('Error parsing localStorage user:', error);
+        }
     }
 
-    // Load user profile
-    loadUserProfile(session.user);
+    // PRIORITY 2: Check Supabase (if localStorage failed)
+    try {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (session) {
+            loadUserProfile(session.user);
+            return;
+        }
+    } catch (error) {
+        console.error('Supabase check failed:', error);
+    }
+
+    // PRIORITY 3: No auth found - redirect to login
+    window.location.href = 'login.html';
 }
 
 // Load User Profile
@@ -114,9 +132,21 @@ if (userMenuBtn && userDropdown) {
 const logoutBtn = document.getElementById('logout-btn');
 if (logoutBtn) {
     logoutBtn.addEventListener('click', async () => {
-        await supabaseClient.auth.signOut();
+        // Clear ALL Influora localStorage data
         localStorage.removeItem('influora_user');
-        window.location.href = '/login';
+        localStorage.removeItem('influora_auth');
+        localStorage.removeItem('influora_email');
+
+        // Sign out from Supabase if available
+        try {
+            if (supabaseClient) {
+                await supabaseClient.auth.signOut();
+            }
+        } catch (error) {
+            console.error('Supabase signOut error:', error);
+        }
+
+        window.location.href = 'login.html';
     });
 }
 

@@ -8,16 +8,40 @@ console.log('Auth homepage script loaded');
 // Check authentication on page load
 async function checkHomepageAuth() {
     try {
-        // Get current session
-        const { data: { session } } = await supabaseClient.auth.getSession();
+        // PRIORITY 1: Check localStorage first (fallback auth)
+        const localAuth = localStorage.getItem('influora_auth');
+        const localUser = localStorage.getItem('influora_user');
 
-        if (session && session.user) {
-            // User is signed in
-            showSignedInUI(session.user);
-        } else {
-            // User is NOT signed in
-            showSignedOutUI();
+        if (localAuth === 'true' && localUser) {
+            try {
+                const user = JSON.parse(localUser);
+                // Create a minimal user object for display
+                const userObj = {
+                    email: localStorage.getItem('influora_email') || user.email || '',
+                    user_metadata: {
+                        name: user.name || '',
+                        bio: user.bio || ''
+                    }
+                };
+                showSignedInUI(userObj);
+                return;
+            } catch (error) {
+                console.error('Error parsing localStorage user:', error);
+            }
         }
+
+        // PRIORITY 2: Check Supabase (if localStorage failed)
+        if (supabaseClient) {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (session && session.user) {
+                // User is signed in via Supabase
+                showSignedInUI(session.user);
+                return;
+            }
+        }
+
+        // PRIORITY 3: Show guest UI
+        showSignedOutUI();
     } catch (error) {
         console.error('Error checking auth:', error);
         showSignedOutUI();
@@ -116,10 +140,26 @@ function showSignedInUI(user) {
     const logoutBtn = document.getElementById('logout-btn-homepage');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', async () => {
-            await supabaseClient.auth.signOut();
+            // Clear ALL Influora localStorage data
             localStorage.removeItem('influora_user');
-            // Optionally clear profile picture
-            // localStorage.removeItem(`influora_profile_pic_${user.email}`);
+            localStorage.removeItem('influora_auth');
+            localStorage.removeItem('influora_email');
+
+            // Clear profile picture
+            const userEmail = user.email || localStorage.getItem('influora_email');
+            if (userEmail) {
+                localStorage.removeItem(`influora_profile_pic_${userEmail}`);
+            }
+
+            // Sign out from Supabase if available
+            try {
+                if (supabaseClient) {
+                    await supabaseClient.auth.signOut();
+                }
+            } catch (error) {
+                console.error('Supabase signOut error:', error);
+            }
+
             window.location.reload();
         });
     }
